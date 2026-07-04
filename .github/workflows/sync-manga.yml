@@ -1,0 +1,27 @@
+name: Sync MangaDex -> Firestore
+
+on:
+  schedule:
+    # Toutes les 6 heures. Modifie la valeur cron si tu veux une autre fréquence.
+    - cron: "0 */6 * * *"
+  workflow_dispatch: {}   # permet de le lancer manuellement depuis l'onglet Actions
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout du repo
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Installer les dépendances
+        run: pip install -r requirements.txt
+
+      - name: Lancer la synchronisation
+        env:
+          FIREBASE_SERVICE_ACCOUNT_JSON: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_JSON }}
+        run: python sync_manga.py
