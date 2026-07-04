@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://mangatrack.github.io/MangaTrack/sitemap.xml
